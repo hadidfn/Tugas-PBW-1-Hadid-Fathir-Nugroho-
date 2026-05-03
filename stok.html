@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Stok Bahan Ajar - UT</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; display: flex; }
+        .sidebar { width: 250px; background: #003366; color: white; min-height: 100vh; padding: 20px; }
+        .main { flex: 1; padding: 40px; }
+        
+        /* Table Style */
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        th { background: #003366; color: white; padding: 15px; text-align: left; }
+        td { padding: 12px 15px; border-bottom: 1px solid #eee; color: #2c3e50; }
+        tr:hover { background-color: #f9f9f9; }
+
+        /* Form Style */
+        .form-tambah { background: white; padding: 25px; border-radius: 8px; margin-top: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-tambah input { padding: 10px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px; width: 20%; }
+        .btn-add { padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-add:hover { background: #219150; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h3>Navigasi</h3>
+    <p><a href="dashboard.html" style="color: white; text-decoration: none;">← Kembali ke Dashboard</a></p>
+</div>
+
+<div class="main">
+    <h2>Informasi Stok Bahan Ajar</h2>
+    
+    <table id="tabelStok">
+        <thead>
+            <tr>
+                <th>Kode MK</th>
+                <th>Nama Bahan Ajar</th>
+                <th>Jumlah Stok</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div class="form-tambah">
+        <h3>Tambah Stok Baru</h3>
+        <input type="text" id="inputKode" placeholder="Kode MK (ex: MSIM4301)">
+        <input type="text" id="inputNama" placeholder="Nama Bahan Ajar">
+        <input type="number" id="inputStok" placeholder="Jumlah">
+        <button class="btn-add" onclick="tambahBaris()">Tambah ke Tabel</button>
+    </div>
+</div>
+
+<script src="js/data.js"></script>
+<script>
+    const tbody = document.querySelector("#tabelStok tbody");
+
+    function tampilkanDataDinamis() {
+        dataBahanAjar.forEach(item => {
+            let row = `<tr>
+                <td>${item.kode}</td>
+                <td>${item.nama}</td>
+                <td>${item.stok}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+
+    function tambahBaris() {
+        const kode = document.getElementById("inputKode").value;
+        const nama = document.getElementById("inputNama").value;
+        const stok = document.getElementById("inputStok").value;
+
+        if (kode === "" || nama === "" || stok === "") {
+            alert("Harap isi semua field!");
+            return;
+        }
+
+        const barisBaru = document.createElement("tr");
+        barisBaru.innerHTML = `
+            <td>${kode}</td>
+            <td>${nama}</td>
+            <td>${stok}</td>
+        `;
+        tbody.appendChild(barisBaru);
+
+        document.getElementById("inputKode").value = "";
+        document.getElementById("inputNama").value = "";
+        document.getElementById("inputStok").value = "";
+    }
+
+    tampilkanDataDinamis();
+</script>
+
+</body>
+</html>
